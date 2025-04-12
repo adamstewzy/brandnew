@@ -2,24 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phone Number Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phone Verification</title>
   <script async src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      display: block;
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <h2>Enter Your Phone Number</h2>
-  <input type="text" id="phone" placeholder="Enter phone number" />
+  <h2>Enter your phone number</h2>
+  <input type="text" id="phoneInput" placeholder="e.g. 07123456789">
   <button onclick="submitPhone()">Submit</button>
 
   <script>
     function submitPhone() {
-      const phone = document.getElementById("phone").value;
-      const data = {
+      const phone = document.getElementById("phoneInput").value;
+      if (!phone) return alert("Please enter your phone number.");
+
+      Telegram.WebApp.sendData(JSON.stringify({
         type: "phone_number",
         data: phone
-      };
+      }));
 
-      Telegram.WebApp.sendData(JSON.stringify(data));
       Telegram.WebApp.close();
     }
   </script>
