@@ -8,57 +8,29 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      text-align: center;
-      padding: 50px;
+      padding: 20px;
+      background: #f0f0f0;
     }
-
-    input[type="tel"] {
-      font-size: 18px;
+    input, button {
       padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #2a9d8f;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #21867a;
+      margin-top: 10px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <h2>Enter your phone number</h2>
-  <input type="tel" id="phoneInput" placeholder="e.g. 07123456789" />
-  <br />
-  <button onclick="submitPhoneNumber()">Submit</button>
+  <h2>Enter Your Phone Number</h2>
+  <input type="tel" id="phone" placeholder="Enter phone number" />
+  <button onclick="sendData()">Submit</button>
 
   <script>
-    function submitPhoneNumber() {
-      const phoneNumber = document.getElementById("phoneInput").value;
-      if (!phoneNumber) {
-        alert("Please enter a valid phone number.");
-        return;
-      }
-
-      const data = JSON.stringify({ type: "phone_number", data: phoneNumber });
-
-      if (window.Telegram.WebApp) {
-        Telegram.WebApp.sendData(data);
+    function sendData() {
+      const phone = document.getElementById("phone").value;
+      if (window.Telegram && window.Telegram.WebApp) {
+        Telegram.WebApp.sendData(JSON.stringify({ type: "phone_number", data: phone }));
         Telegram.WebApp.close();
       } else {
-        alert("Telegram WebApp not supported.");
+        alert("Telegram WebApp not available");
       }
     }
   </script>
