@@ -1,55 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Phone Verification</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background-color: #f3f3f3;
-    }
-    h2 {
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 1rem 0;
-      font-size: 1rem;
-    }
-    button {
-      padding: 0.75rem;
-      width: 100%;
-      font-size: 1rem;
-      background-color: #0088cc;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #006f9e;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Phone Number</title>
 </head>
 <body>
-  <h2>Verify Your Phone</h2>
-  <input type="text" id="phoneInput" placeholder="Enter your phone number" />
-  <button onclick="sendPhoneNumber()">Submit</button>
+    <h2>Verify Your Phone Number</h2>
+    <form id="phoneForm">
+        <label for="phone">Enter your phone number:</label><br>
+        <input type="text" id="phone" name="phone"><br><br>
+        <button type="submit">Submit</button>
+    </form>
 
-  <script>
-    function sendPhoneNumber() {
-      const phone = document.getElementById("phoneInput").value;
-      if (phone.length < 6) {
-        alert("Please enter a valid phone number.");
-        return;
-      }
-      Telegram.WebApp.sendData(phone); // sends data back to the bot
-      Telegram.WebApp.close(); // closes the web app
-    }
+    <script>
+        document.getElementById('phoneForm').onsubmit = function(event) {
+            event.preventDefault();
+            const phone = document.getElementById('phone').value;
 
-    Telegram.WebApp.ready();
-  </script>
+            // Send the phone number back to the bot via the Web App API
+            Telegram.WebApp.close();
+            Telegram.WebApp.sendData(phone);  // Send the phone number to the bot
+        };
+    </script>
 </body>
 </html>
+
