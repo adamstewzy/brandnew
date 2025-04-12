@@ -14,16 +14,15 @@
     </form>
 
     <script>
+        // On form submission, capture the phone number and send it back to the bot
         document.getElementById('phoneForm').onsubmit = function(event) {
             event.preventDefault();
             const phone = document.getElementById('phone').value;
 
             // Send the phone number back to the bot using the Telegram Web App API
-            Telegram.WebApp.close(); // Close the Web App after submission
-            Telegram.WebApp.sendData(phone);  // Send the phone number to the bot
+            Telegram.WebApp.sendData(phone); // Sends the phone number back
+            Telegram.WebApp.close(); // Optionally close the Web App after submission
         };
     </script>
 </body>
 </html>
-
-
