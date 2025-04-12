@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Phone Number</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Phone Verification</title>
+
+    <!-- Include the Telegram Web App JS SDK -->
+    <script async src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <h2>Verify Your Phone Number</h2>
-    <form id="phoneForm">
-        <label for="phone">Enter your phone number:</label><br>
-        <input type="text" id="phone" name="phone" required><br><br>
-        <button type="submit">Submit</button>
-    </form>
+    <h1>Phone Number Verification</h1>
+    <p>Please enter your phone number to verify:</p>
+    <input type="text" id="phoneNumber" placeholder="Enter your phone number" />
+    <button id="submit">Submit</button>
 
     <script>
-        // Initialize Telegram WebApp
-        const tg = window.Telegram.WebApp;
+        const submitButton = document.getElementById('submit');
+        const phoneNumberInput = document.getElementById('phoneNumber');
 
-        // When the form is submitted, send the data back to the bot
-        document.getElementById('phoneForm').onsubmit = function(event) {
-            event.preventDefault(); // Prevent the form from reloading the page
-            const phone = document.getElementById('phone').value;
+        submitButton.addEventListener('click', () => {
+            const phoneNumber = phoneNumberInput.value.trim();
 
-            // Check if the phone number is valid (this is a basic check)
-            if (phone.trim() === '') {
-                alert('Please enter a valid phone number');
-                return;
+            if (phoneNumber) {
+                const payload = {
+                    type: 'phone_number',
+                    data: phoneNumber
+                };
+
+                // Send data to Telegram Web App
+                Telegram.WebApp.sendData(JSON.stringify(payload));
+
+                // Optionally close the Web App
+                Telegram.WebApp.close();
+            } else {
+                alert('Please enter a valid phone number.');
             }
-
-            // Send the phone number back to the bot using Telegram Web App API
-            tg.sendData(phone);  // Send phone number to bot
-            tg.close();  // Close the Web App after submission
-        };
+        });
     </script>
 </body>
 </html>
