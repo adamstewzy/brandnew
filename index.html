@@ -14,7 +14,7 @@
     </form>
 
     <script>
-        // Function to send phone number back to the Telegram bot
+        // When the form is submitted, send the data back to the bot
         document.getElementById('phoneForm').onsubmit = function(event) {
             event.preventDefault(); // Prevent the form from reloading the page
             const phone = document.getElementById('phone').value;
@@ -25,9 +25,9 @@
                 return;
             }
 
-            // Send the phone number back to the bot using the Telegram Web App API
-            Telegram.WebApp.sendData(phone); // Sends the phone number back
-            Telegram.WebApp.close(); // Optionally close the Web App after submission
+            // Send the phone number back to the bot
+            Telegram.WebApp.sendData(phone);  // Send phone number to bot
+            Telegram.WebApp.close(); // Close Web App after submission
         };
     </script>
 </body>
