@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Phone Verification</title>
-  <script async src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    input, button {
-      display: block;
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Verify Phone Number</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2em;
+        }
+        input, button {
+            font-size: 1.2em;
+            padding: 0.5em;
+            margin-top: 1em;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h2>Enter your phone number</h2>
-  <input type="text" id="phoneInput" placeholder="e.g. 07123456789">
-  <button onclick="submitPhone()">Submit</button>
+    <h2>Enter Your Phone Number</h2>
+    <input type="tel" id="phone" placeholder="e.g. 07561844608">
+    <button onclick="submitPhone()">Submit</button>
 
-  <script>
-    function submitPhone() {
-      const phone = document.getElementById("phoneInput").value;
-      if (!phone) return alert("Please enter your phone number.");
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
 
-      Telegram.WebApp.sendData(JSON.stringify({
-        type: "phone_number",
-        data: phone
-      }));
-
-      Telegram.WebApp.close();
-    }
-  </script>
+        function submitPhone() {
+            const phone = document.getElementById("phone").value;
+            if (phone) {
+                tg.sendData(JSON.stringify({ type: "phone_number", data: phone }));
+                tg.close();
+            } else {
+                alert("Please enter your phone number.");
+            }
+        }
+    </script>
 </body>
 </html>
