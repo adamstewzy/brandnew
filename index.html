@@ -18,11 +18,12 @@
             event.preventDefault();
             const phone = document.getElementById('phone').value;
 
-            // Send the phone number back to the bot via the Web App API
-            Telegram.WebApp.close();
+            // Send the phone number back to the bot using the Telegram Web App API
+            Telegram.WebApp.close(); // Close the Web App after submission
             Telegram.WebApp.sendData(phone);  // Send the phone number to the bot
         };
     </script>
 </body>
 </html>
+
 
