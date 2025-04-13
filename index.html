@@ -3,45 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Number Input</title>
+    <title>Phone Number Verification</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        h1 { text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+        button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; font-size: 16px; }
+    </style>
 </head>
 <body>
-    <h1>Please Share Your Phone Number</h1>
-    <button id="share-phone">Share Phone Number</button>
+    <div class="container">
+        <h1>Verify Your Phone Number</h1>
+        <input type="text" id="phone" placeholder="Enter your phone number" />
+        <button id="submit" onclick="submitPhoneNumber()">Submit</button>
+    </div>
 
     <script>
-        // Wait for the Telegram Web App to load
-        window.onload = function () {
-            if (Telegram.WebApp) {
-                console.log("Telegram WebApp initialized");
-            }
-        };
-
-        // Button click event listener
-        document.getElementById("share-phone").addEventListener("click", function () {
-            if (Telegram.WebApp) {
-                // Request the phone number from the user
-                Telegram.WebApp.requestPhoneNumber();
-
-                // When the user shares their phone number, send the data to the bot
-                Telegram.WebApp.onEvent('web_app_data', function(data) {
-                    // Ensure that the data contains a phone number
-                    if (data && data.phone_number) {
-                        const phoneNumber = data.phone_number;
-                        console.log("Phone number received:", phoneNumber);
-                        // Send phone number to bot
-                        Telegram.WebApp.sendData(JSON.stringify({
-                            type: "phone_number", // Specify the type of data being sent
-                            data: phoneNumber // Send the actual phone number
-                        }));
-                    } else {
-                        console.log("No phone number provided.");
-                    }
-                });
+        // This function sends the phone number back to the bot or server
+        function submitPhoneNumber() {
+            const phone = document.getElementById("phone").value;
+            
+            if (phone) {
+                // Send the phone number back to your bot or server (use Telegram API or your backend API here)
+                fetch('https://your-server.com/verify', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Verification successful!");
+                })
+                .catch(error => alert("Error submitting phone number."));
             } else {
-                console.log("Telegram WebApp is not available.");
+                alert("Please enter a phone number.");
             }
-        });
+        }
     </script>
 </body>
 </html>
