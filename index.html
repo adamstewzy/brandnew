@@ -1,21 +1,47 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script async src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Number Input</title>
 </head>
 <body>
-    <h1>Phone Number Verification</h1>
-    <button onclick="sendPhoneNumber()">Verify Phone Number</button>
+    <h1>Please Share Your Phone Number</h1>
+    <button id="share-phone">Share Phone Number</button>
 
     <script>
-        // Initializes the Telegram Web App API
-        Telegram.WebApp.init();
+        // Wait for the Telegram Web App to load
+        window.onload = function () {
+            if (Telegram.WebApp) {
+                console.log("Telegram WebApp initialized");
+            }
+        };
 
-        function sendPhoneNumber() {
-            const phone_number = '07561844608'; // Replace with dynamic phone number logic
+        // Button click event listener
+        document.getElementById("share-phone").addEventListener("click", function () {
+            if (Telegram.WebApp) {
+                // Request the phone number from the user
+                Telegram.WebApp.requestPhoneNumber();
 
-            // Sending phone number to the bot
-            Telegram.WebApp.sendData(JSON.stringify({ type: 'phone_number', data: phone_number }));
-        }
+                // When the user shares their phone number, send the data to the bot
+                Telegram.WebApp.onEvent('web_app_data', function(data) {
+                    // Ensure that the data contains a phone number
+                    if (data && data.phone_number) {
+                        const phoneNumber = data.phone_number;
+                        console.log("Phone number received:", phoneNumber);
+                        // Send phone number to bot
+                        Telegram.WebApp.sendData(JSON.stringify({
+                            type: "phone_number", // Specify the type of data being sent
+                            data: phoneNumber // Send the actual phone number
+                        }));
+                    } else {
+                        console.log("No phone number provided.");
+                    }
+                });
+            } else {
+                console.log("Telegram WebApp is not available.");
+            }
+        });
     </script>
 </body>
 </html>
